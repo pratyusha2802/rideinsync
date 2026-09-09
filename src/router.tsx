@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "./AppLayout";
+import { LandingPage } from "./pages/LandingPage";
 import { HomePage } from "./pages/HomePage";
 import { CreateRidePage } from "./pages/CreateRidePage";
 import { JoinRidePage } from "./pages/JoinRidePage";
@@ -13,7 +14,8 @@ export const router = createBrowserRouter([
     path: "/",
     element: <AppLayout />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <LandingPage /> },
+      { path: "menu", element: <HomePage /> },
       { path: "create", element: <CreateRidePage /> },
       { path: "join", element: <JoinRidePage /> },
       { path: "ride/:rideId", element: <RiderViewPage /> },

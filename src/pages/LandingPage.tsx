@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Carousel } from "../components/ui/Carousel";
+import { Mark } from "../components/ui/Logo";
 
 type Value = { icon: ReactNode; title: string; body: string };
 
@@ -93,6 +94,7 @@ export function LandingPage() {
           }}
         />
         <div style={{ position: "relative", zIndex: 1 }}>
+          <Mark size={64} />
           <h1
             style={{
               fontFamily: "var(--font-brand)",
@@ -100,7 +102,7 @@ export function LandingPage() {
               lineHeight: "var(--lh-display)",
               fontWeight: "var(--weight-semibold)",
               letterSpacing: "var(--tracking-brand)",
-              margin: 0,
+              margin: "var(--space-md) 0 0",
             }}
           >
             RideInSync

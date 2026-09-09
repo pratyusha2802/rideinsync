@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
+import { Logo } from "../components/ui/Logo";
 
 const nav: { label: string; to: string; variant?: "primary" | "secondary" }[] = [
   { label: "Create ride", to: "/create", variant: "primary" },
@@ -13,19 +14,8 @@ export function HomePage() {
   const navigate = useNavigate();
   return (
     <div>
-      <h1
-        style={{
-          fontFamily: "var(--font-brand)",
-          fontSize: "var(--text-display)",
-          lineHeight: "var(--lh-display)",
-          fontWeight: "var(--weight-semibold)",
-          letterSpacing: "var(--tracking-brand)",
-          margin: 0,
-        }}
-      >
-        RideInSync
-      </h1>
-      <p style={{ color: "var(--color-text-secondary)", marginTop: "var(--space-xs)" }}>
+      <Logo size={36} />
+      <p style={{ color: "var(--color-text-secondary)", marginTop: "var(--space-sm)" }}>
         Voice-first group-ride coordination. Scaffold only — no functionality yet.
       </p>
       <div

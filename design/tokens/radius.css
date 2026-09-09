@@ -1,0 +1,9 @@
+:root{
+  --radius-full:999px;
+  --radius-lg:20px;
+  --radius-md:16px;
+  --radius-sm:12px;
+
+  --shadow-card:0 8px 24px rgba(0,0,0,0.5);
+  --glow-accent:0 0 48px 8px var(--color-accent-glow);
+}

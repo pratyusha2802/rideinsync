@@ -1,0 +1,75 @@
+:root{
+  /* Accent — the one hero color (warm chartreuse/lime) */
+  --color-accent:#C4F82A;
+  --color-accent-bright:#C9FF3D;
+  --color-accent-deep:#A8E000;
+  --color-accent-glow:rgba(178,232,46,0.35);
+
+  /* Surfaces — dark scale, each step a shade lifted */
+  --color-bg-base:#0A0A0B;
+  --color-bg-void:#000000;
+  --color-surface-1:#141416;
+  --color-surface-2:#1C1C1E;
+  --color-surface-3:#2A2A2D;
+  --color-surface-4:#3A3A3C;
+
+  /* Text */
+  --color-text-primary:#FFFFFF;
+  --color-text-secondary:#9A9A9E;
+  --color-text-tertiary:#6B6B70;
+  --color-text-on-accent:#0A0A0B;
+  --color-text-on-inverse:#000000;
+
+  /* Utility / feedback */
+  --color-inverse-surface:#FFFFFF;
+  --color-status-positive:#C4F82A;
+  --color-map-road:#8A8A8E;
+  --color-map-building:#C9C9CE;
+  --color-divider:rgba(255,255,255,0.08);
+
+  /* Group-ride rider roles (functional color-coding for the tracker) */
+  --color-role-lead:#C4F82A;      /* lead rider — the accent */
+  --color-role-sweep:#FF7A5A;     /* sweep / tail rider */
+  --color-role-member:#5AC8FA;    /* fellow members */
+  --color-checkpoint-reached:#C4F82A;
+  --color-checkpoint-upcoming:#6B6B70;
+
+  /* Semantic aliases */
+  --text-body:var(--color-text-primary);
+  --text-muted:var(--color-text-secondary);
+  --text-hint:var(--color-text-tertiary);
+  --surface-app:var(--color-bg-base);
+  --surface-card:var(--color-surface-2);
+  --surface-sheet:var(--color-surface-1);
+  --action-primary:var(--color-accent);
+  --action-primary-pressed:var(--color-accent-deep);
+  --focus-ring:var(--color-accent);
+  --border-hairline:var(--color-divider);
+}
+
+/* ---- Light theme ---- opt in with [data-theme="light"] on any ancestor.
+   Accent stays lime; surfaces + text invert to a bright scale. */
+[data-theme="light"]{
+  --color-bg-base:#F5F5F7;
+  --color-bg-void:#FFFFFF;
+  --color-surface-1:#FFFFFF;
+  --color-surface-2:#EFEFF2;
+  --color-surface-3:#E6E6EB;
+  --color-surface-4:#D6D6DC;
+
+  --color-text-primary:#0A0A0B;
+  --color-text-secondary:#5A5A60;
+  --color-text-tertiary:#8A8A90;
+  --color-text-on-accent:#0A0A0B;
+  --color-text-on-inverse:#FFFFFF;
+
+  --color-inverse-surface:#0A0A0B;
+  --color-map-road:#B0B0B6;
+  --color-map-building:#8A8A8E;
+  --color-divider:rgba(0,0,0,0.10);
+
+  --color-role-member:#0A84D8;
+  --color-checkpoint-upcoming:#9A9AA0;
+  --shadow-card:0 8px 24px rgba(20,20,25,0.12);
+  --glow-accent:0 0 48px 8px var(--color-accent-glow);
+}

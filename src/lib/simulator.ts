@@ -39,9 +39,10 @@ export class RideSimulator {
         return {
           ...guest,
           name,
-          // stagger the pack down the route so they read as a line, not a dot
-          progress: 0.12 - i * 0.012,
-          baseSpeed: 0.006 + Math.random() * 0.002,
+          // spread the pack into a visible convoy line along the route, and keep
+          // them slow + near-uniform so they hold formation for the demo run
+          progress: 0.55 - i * 0.05,
+          baseSpeed: 0.0025 + Math.random() * 0.0006,
           behind: false,
           stopped: false,
         };

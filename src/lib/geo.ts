@@ -8,7 +8,7 @@ export type LatLng = { lat: number; lng: number };
 // Demo-tuned thresholds (PRD: fixed app-wide defaults, soft warnings). Tunable
 // live from the demo panel; see ARCHITECTURE.md §Flow-3 spec.
 export const STALE_MS = 15_000; // no position update for >15s → "stale"
-export const BEHIND_M = 250; // >250m from the group's centre → "behind"
+export const BEHIND_M = 220; // gap to the nearest packmate >220m → "behind"
 
 const R = 6_371_000; // earth radius, metres
 const toRad = (d: number) => (d * Math.PI) / 180;
@@ -83,25 +83,31 @@ export function centroid(points: LatLng[]): LatLng | null {
   return { lat: s.lat / points.length, lng: s.lng / points.length };
 }
 
+/** Smallest distance (m) from `pos` to any point in `others`, or null if none. */
+export function nearestGapMeters(pos: LatLng, others: LatLng[]): number | null {
+  if (others.length === 0) return null;
+  return Math.min(...others.map((o) => haversineMeters(pos, o)));
+}
+
 /**
  * Derive a rider's group status from their latest position + manual member
- * status, given the group centre and the current time.
+ * status, given the gap to their nearest packmate and the current time.
  *  - manual `stopped`/`leaving` wins
  *  - no position, or a position older than STALE_MS → `stale`
- *  - >BEHIND_M from the group centre → `behind`
+ *  - gap to the nearest other rider >BEHIND_M → `behind` (dropped from the pack)
  *  - otherwise `intact`
  */
 export function deriveStatus(args: {
   memberStatus: string;
   pos: LatLng | null;
   recordedAt: string | null;
-  center: LatLng | null;
+  nearestGap: number | null;
   now: number;
 }): GroupStatus {
-  const { memberStatus, pos, recordedAt, center, now } = args;
+  const { memberStatus, pos, recordedAt, nearestGap, now } = args;
   if (memberStatus === "stopped" || memberStatus === "leaving") return "stopped";
   if (!pos || !recordedAt) return "stale";
   if (now - new Date(recordedAt).getTime() > STALE_MS) return "stale";
-  if (center && haversineMeters(pos, center) > BEHIND_M) return "behind";
+  if (nearestGap != null && nearestGap > BEHIND_M) return "behind";
   return "intact";
 }

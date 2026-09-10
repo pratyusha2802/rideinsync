@@ -6,7 +6,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
 import type { Profile, RideEvent, RideMember, RiderOnMap, RiderPosition } from "../lib/models";
-import { centroid, deriveStatus } from "../lib/geo";
+import { deriveStatus, nearestGapMeters } from "../lib/geo";
 import type { LatLng } from "../lib/geo";
 
 type PosMap = Record<string, RiderPosition>;
@@ -105,20 +105,27 @@ export function useRideChannel(rideId: string | undefined) {
 
   const riders: RiderOnMap[] = useMemo(() => {
     const ids = Object.keys(members);
-    const freshPoints: LatLng[] = ids
-      .map((id) => positions[id])
-      .filter((p): p is RiderPosition => !!p && now - new Date(p.recorded_at).getTime() <= 20_000)
-      .map((p) => ({ lat: p.lat, lng: p.lng }));
-    const center = centroid(freshPoints);
+    // Fresh position per rider (recent enough to count for gap/pack maths).
+    const freshById: Record<string, LatLng> = {};
+    for (const id of ids) {
+      const p = positions[id];
+      if (p && now - new Date(p.recorded_at).getTime() <= 20_000) {
+        freshById[id] = { lat: p.lat, lng: p.lng };
+      }
+    }
 
     return ids.map((id) => {
       const member = members[id];
       const latest = positions[id] ?? null;
+      const pos = latest ? { lat: latest.lat, lng: latest.lng } : null;
+      const others = Object.entries(freshById)
+        .filter(([oid]) => oid !== id)
+        .map(([, p]) => p);
       const status = deriveStatus({
         memberStatus: member.status,
-        pos: latest ? { lat: latest.lat, lng: latest.lng } : null,
+        pos,
         recordedAt: latest?.recorded_at ?? null,
-        center,
+        nearestGap: pos ? nearestGapMeters(pos, others) : null,
         now,
       });
       const profile = profiles[id];

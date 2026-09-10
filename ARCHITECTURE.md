@@ -51,6 +51,12 @@ flowchart TD
 
 ## 3. Data model
 
+> **Full schema:** the five tables below are the live-tracking core. The complete data model
+> covering all 7 flows (onboarding, dashboard, signals, SOS, ending, demo) is now implemented in
+> `supabase/migrations/0001_foundation.sql`, with per-flow ownership and an ERD in
+> `docs/DATA_MODEL.md`. That migration is the source of truth; this section is the narrative for
+> the core.
+
 Full position **history** is retained (leader-set retention window); the live map reads the
 latest ping per rider from that same stream.
 

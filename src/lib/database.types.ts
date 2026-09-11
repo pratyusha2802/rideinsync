@@ -26,10 +26,14 @@ export type PitstopKind = "planned" | "dynamic";
 export type ConsentPolicy = "tnc" | "privacy" | "medical" | "dpdp";
 
 // Helper: a table definition with Row / Insert / Update shapes.
+// `Relationships: []` is required by @supabase/supabase-js v2's generics — without
+// it the client infers `never` for insert/select/rpc. Regenerating with the
+// Supabase CLI produces the real relationships; this keeps the placeholder valid.
 type Table<Row, Insert = Partial<Row>, Update = Partial<Insert>> = {
   Row: Row;
   Insert: Insert;
   Update: Update;
+  Relationships: [];
 };
 
 // Convenience: mark generated/defaulted columns optional on Insert.
@@ -181,5 +185,6 @@ export interface Database {
       pitstop_kind: PitstopKind;
       consent_policy: ConsentPolicy;
     };
+    CompositeTypes: Record<string, never>;
   };
 }
